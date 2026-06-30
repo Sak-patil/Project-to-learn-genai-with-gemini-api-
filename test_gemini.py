@@ -41,14 +41,26 @@ def chat(history):
 
 #making empty list for history
 history = []
+while True:
+    print("Ask question:")
+    question=input(">")
+    add_user_message(history,question)
 
-add_user_message(history,"define quantum mechanics in one sentence")
+    #pass the list of history to gemini 
+    answer=chat(history)
+    print(answer)
 
-#pass the list of history to gemini 
-answer=chat(history)
-print(answer)
+    #now add that response again to the history 
+    add_model_message(history,answer)
 
-#now add that response again to the history 
-add_model_message(history,answer)
+    # print(history)
+    #builted the simple chat bot in which the request(user question) and response
+    #giveby model is saved in history (list) so that model can remember the 
+    #previous context as this increases the token usability cause we are 
+    #history also thats why modern models dont use this method 
 
-print(history)
+    #whats happening 
+    #1.user's question gets saved in histpry list 
+    #2.history list send to model
+    #3.the respomse of model also getting saved in history list
+    #4.this happens on loop (while:True)
