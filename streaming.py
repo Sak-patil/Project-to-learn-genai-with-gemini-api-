@@ -2,6 +2,7 @@ import os
 from google import genai
 from dotenv import load_dotenv
 load_dotenv()
+from google.genai.types import GenerateContentConfig
 
 client = genai.Client(
     api_key=os.environ.get("GEMINI_API_KEY")
@@ -31,13 +32,17 @@ def add_model_message(history, text):
 
     history.append(model_message)
 
-def chat(history):
-    response = client.models.generate_content(
+def chat(history,temperature):
+    full_response=""
+    for chunk in client.models.generate_content_stream(
         model="gemini-2.5-flash",
         contents=history
-    )
+    ):
+        print(chunk.text, end="", flush=True)
+        full_response += chunk.text
 
-    return response.text
+    print()  # Move to the next line after streaming is complete
+    return full_response
 
 #making empty list for history
 history = []
@@ -47,20 +52,8 @@ while True:
     add_user_message(history,question)
 
     #pass the list of history to gemini 
-    answer=chat(history)
+    answer=chat(history,1)# here 1 is temperature 
     print(answer)
 
     #now add that response again to the history 
     add_model_message(history,answer)
-
-    # print(history)
-    #builted the simple chat bot in which the request(user question) and response
-    #giveby model is saved in history (list) so that model can remember the 
-    #previous context as this increases the token usability cause we are 
-    #history also thats why modern models dont use this method 
-
-    #whats happening 
-    #1.user's question gets saved in histpry list 
-    #2.history list send to model
-    #3.the respomse of model also getting saved in history list
-    #4.this happens on loop (while:True)
