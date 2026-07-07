@@ -10,6 +10,21 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 
+#code of current day tool  
+def get_current_day():
+    return {
+        "day": datetime.now().strftime("%A")
+    }
+
+get_current_day_schema = types.FunctionDeclaration(
+    name="get_current_day",
+    description="Returns the current day of the week.",
+    parameters={
+        "type": "OBJECT",
+        "properties": {}
+    }
+)
+
 def get_current_datetime():
     return {
         "date": datetime.now().strftime("%d-%m-%Y"),
@@ -29,16 +44,15 @@ get_current_datetime_schema = types.FunctionDeclaration(
 )
 
 tool = types.Tool(
-    function_declarations=[get_current_datetime_schema]
+    function_declarations=[get_current_datetime_schema,get_current_day_schema]
 )
 
 messages=[]
-
 messages.append({
     "role":"user",
     "parts": [
         {
-            "text": "What is the exact time?"
+            "text": "whats current day and time "
         }
     ]
 })
@@ -55,7 +69,8 @@ response = client.models.generate_content(
     ) 
 )
 available_tools={
-    "get_current_datetime":get_current_datetime
+    "get_current_datetime":get_current_datetime,
+    "get_current_day":get_current_day
 }
 
 tool_name=response.candidates[0].content.parts[0].function_call.name   #Extracting the name from response send by model 
@@ -81,10 +96,14 @@ messages.append(
 
 final_response = client.models.generate_content(
     model="gemini-2.5-flash",
-    contents=messages
+    contents=messages,
+    config=types.GenerateContentConfig(
+        tools=[tool] 
+    ) 
 )
 
-print(final_response.text)
-
-
+if __name__=="__main__":  # when we import this file tools.py this wont get print 
+                          #due to this 
+    print(final_response.text)
+    
 
