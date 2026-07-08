@@ -79,7 +79,7 @@ while True:
             # -------------------------
             # Execute the correct tool
             # -------------------------
-            tool_function = tools.available_tools.get(tool_name)
+            tool_function = tools.available_tools[tool_name]
 
             if tool_function is None:
                 raise Exception(f"Unknown Tool: {tool_name}")
