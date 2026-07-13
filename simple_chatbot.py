@@ -43,7 +43,7 @@ def chat(history,temperature):
         )
     )
 
-    return response.text
+    return response
 
 #making empty list for history
 history = []
