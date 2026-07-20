@@ -28,20 +28,20 @@ with open("practice_file.md", "r", encoding="utf-8") as file:
 #     print("-" * 3)
 
 #Structured based chunking 
-import re
-def structured_chunk(text):
+# import re
+# def structured_chunk(text):
 
-    pattern = r'(?=# )'    #r means raw string ,(?=...) This is called a Positive Lookahead."Look ahead to see if this pattern exists, but don't consume it."
+#     pattern = r'(?=# )'    #r means raw string ,(?=...) This is called a Positive Lookahead."Look ahead to see if this pattern exists, but don't consume it."
 
-    chunks = re.split(pattern, text)
+#     chunks = re.split(pattern, text)
 
-    return [chunk.strip() for chunk in chunks if chunk.strip()]  #removing front and end spaces 
+#     return [chunk.strip() for chunk in chunks if chunk.strip()]  #removing front and end spaces 
 
-chunks = structured_chunk(text)
+# chunks = structured_chunk(text)
 
-for chunk in chunks:
-    print(chunk)
-    print("-" * 30)
+# for chunk in chunks:
+#     print(chunk)
+#     print("-" * 30)
 
 #Semantic chunking 
 text_semantic = """
@@ -51,11 +51,11 @@ Machine Learning is a subset of AI.
 My name is sakshi .I am student 
 """
 from langchain_experimental.text_splitter import SemanticChunker
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_voyageai import VoyageAIEmbeddings  #we are going ot use the VOYAGE AI embedding model provider 
 
-embeddings = GoogleGenerativeAIEmbeddings(
-    model="models/gemini-embedding-2",
-    google_api_key=os.environ.get("GEMINI_API_KEY")  #for embedding we using the gemini 
+embeddings = VoyageAIEmbeddings(
+    model="voyage-3",
+    api_key=os.getenv("VOYAGE_API_KEY")
 )
 
 splitter = SemanticChunker(embeddings)
