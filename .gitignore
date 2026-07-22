@@ -4,4 +4,4 @@ chroma_db/
 # Python
 __pycache__/
 *.pyc
-.venv/
+.venv/RAG/chroma_db/
