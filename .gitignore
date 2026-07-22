@@ -1,1 +1,7 @@
 .env
+# Chroma vector DB
+chroma_db/
+# Python
+__pycache__/
+*.pyc
+.venv/

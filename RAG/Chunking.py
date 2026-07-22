@@ -64,3 +64,11 @@ chunks = splitter.split_text(text_semantic)
 for i, chunk in enumerate(chunks, 1):
     print(f"Chunks ={i}")
     print(chunk)
+
+#To see the embedding vectors and its dimensions
+# vectors = embeddings.embed_documents(chunks)
+# for i, vector in enumerate(vectors):
+#     print(f"Chunk {i + 1}")
+#     print("Vector:", vector)
+#     print("Vector dimensions:", len(vector))
+#     print("-" * 50)
